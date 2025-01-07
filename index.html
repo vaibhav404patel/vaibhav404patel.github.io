@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open App</title>
+</head>
+<body>
+    <input type="text" id="nameInput" placeholder="Enter name">
+    <button onclick="openApp()">Open in App</button>
+
+    <script>
+        function openApp() {
+            const name = document.getElementById('nameInput').value;
+            const encodedName = encodeURIComponent(name);
+            window.location.href = `parking://name_screen?name=${encodedName}`;
+        }
+    </script>
+</body>
+</html>
