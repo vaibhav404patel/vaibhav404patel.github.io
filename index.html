@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Open App</title>
+    <title>Print to Flutter App</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .print-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .print-button:hover {
+            background-color: #1976D2;
+        }
+        
+        #status {
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <input type="text" id="nameInput" placeholder="Enter name">
-    <button onclick="openApp()">Open in App</button>
+    <div>
+        <button class="print-button" onclick="triggerFlutterApp()">Print</button>
+        <div id="status"></div>
+    </div>
 
     <script>
-        function openApp() {
-            const name = document.getElementById('nameInput').value;
-            const encodedName = encodeURIComponent(name);
-            window.location.href = `parking://name_screen?name=${encodedName}`;
+        function triggerFlutterApp() {
+            const statusElement = document.getElementById('status');
+            
+            // Custom URL scheme for your Flutter app
+            const flutterAppUrl = 'printapp://print';
+            
+            // Try to open the Flutter app
+            window.location.href = flutterAppUrl;
+            
+            // Show status message
+            statusElement.textContent = 'Attempting to open Flutter app...';
+            
+            // Optional: Check if app was opened (limited reliability)
+            setTimeout(() => {
+                statusElement.textContent = 'If the app didn\'t open, make sure it\'s installed';
+            }, 2000);
         }
     </script>
 </body>
