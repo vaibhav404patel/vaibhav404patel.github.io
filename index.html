@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Print to Flutter App</title>
+    <title>Print Trigger</title>
     <style>
         body {
             display: flex;
@@ -11,7 +11,6 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        
         .print-button {
             padding: 15px 30px;
             font-size: 18px;
@@ -21,8 +20,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        
-        .status {
+        #status {
             margin-top: 20px;
             color: #666;
         }
@@ -31,46 +29,28 @@
 <body>
     <div>
         <button class="print-button" onclick="triggerPrint()">Print</button>
-        <div id="status" class="status"></div>
-        <div id="debug" class="status"></div>
+        <div id="status"></div>
     </div>
 
     <script>
-        function addDebugMessage(message) {
-            const debugElement = document.getElementById('debug');
-            const timestamp = new Date().toLocaleTimeString();
-            debugElement.innerHTML += `${timestamp}: ${message}<br>`;
-            console.log(message);
-        }
-
         function triggerPrint() {
             const statusElement = document.getElementById('status');
-            statusElement.textContent = 'Attempting to trigger print...';
-            addDebugMessage('Print button clicked');
-
-            try {
-                // Try direct location change first
-                addDebugMessage('Attempting direct URL scheme');
-                window.location.href = 'printapp://print';
-                
-                // Fallback to hidden iframe after a small delay
-                setTimeout(() => {
-                    addDebugMessage('Attempting iframe fallback');
-                    const iframe = document.createElement('iframe');
-                    iframe.style.display = 'none';
-                    iframe.src = 'printapp://print';
-                    document.body.appendChild(iframe);
-                    
-                    setTimeout(() => {
-                        document.body.removeChild(iframe);
-                        addDebugMessage('Iframe removed');
-                        statusElement.textContent = 'Print command sent';
-                    }, 1000);
-                }, 500);
-            } catch (error) {
-                addDebugMessage('Error: ' + error.message);
-                statusElement.textContent = 'Error sending print command';
-            }
+            statusElement.textContent = 'Triggering print...';
+            
+            // Create and trigger intent
+            const printUrl = 'printapp://print';
+            
+            // Create hidden iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = printUrl;
+            document.body.appendChild(iframe);
+            
+            // Remove iframe after a delay
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                statusElement.textContent = 'Print command sent';
+            }, 1000);
         }
     </script>
 </body>
