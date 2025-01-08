@@ -34,27 +34,25 @@
 </head>
 <body>
     <div>
-        <button class="print-button" onclick="triggerFlutterApp()">Print</button>
+        <button class="print-button" onclick="triggerPrint()">Print</button>
         <div id="status"></div>
     </div>
 
     <script>
-        function triggerFlutterApp() {
+        function triggerPrint() {
             const statusElement = document.getElementById('status');
             
-            // Custom URL scheme for your Flutter app
-            const flutterAppUrl = 'printapp://print';
+            // Create an iframe for the deep link
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'printapp://print';
+            document.body.appendChild(iframe);
             
-            // Try to open the Flutter app
-            window.location.href = flutterAppUrl;
-            
-            // Show status message
-            statusElement.textContent = 'Attempting to open Flutter app...';
-            
-            // Optional: Check if app was opened (limited reliability)
+            // Remove the iframe after a short delay
             setTimeout(() => {
-                statusElement.textContent = 'If the app didn\'t open, make sure it\'s installed';
-            }, 2000);
+                document.body.removeChild(iframe);
+                statusElement.textContent = 'Print command sent';
+            }, 1000);
         }
     </script>
 </body>
